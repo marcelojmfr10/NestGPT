@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import OpenAI from 'openai';
+import OpenAI, { toFile } from 'openai';
 import { downloadImageAsPng } from 'src/helpers';
 
 interface Options {
@@ -13,9 +13,15 @@ export const imageVariationUseCase = async (
   const { baseImage } = options;
 
   const pngImagePath = await downloadImageAsPng(baseImage, true);
-  const response = await openai.images.createVariation({
-    // model: 'dall-e-3',
-    image: fs.createReadStream(pngImagePath),
+
+  const image = await toFile(fs.createReadStream(pngImagePath), null, {
+    type: 'image/png',
+  });
+
+  const response = await openai.images.edit({
+    model: 'dall-e-2',
+    prompt: 'Cambia el estilo de la imagen',
+    image: image,
     n: 1,
     size: '1024x1024',
     response_format: 'url',
