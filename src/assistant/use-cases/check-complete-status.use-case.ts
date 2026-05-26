@@ -1,20 +1,25 @@
-import OpenAI from "openai";
+import OpenAI from 'openai';
 
 interface Options {
-    threadId: string;
-    runId: string;
+  threadId: string;
+  runId: string;
 }
 
-export const checkCompleteStatusUseCase = async (openai: OpenAI, options: Options) => {
-    const { threadId, runId } = options;
-    const runStatus = await openai.beta.threads.runs.retrieve(runId, { thread_id: threadId });
+export const checkCompleteStatusUseCase = async (
+  openai: OpenAI,
+  options: Options,
+) => {
+  const { threadId, runId } = options;
+  const runStatus = await openai.beta.threads.runs.retrieve(runId, {
+    thread_id: threadId,
+  });
 
-    if (runStatus.status === 'completed') {
-        return runStatus;
-    }
+  if (runStatus.status === 'completed') {
+    return runStatus;
+  }
 
-    // esperar un segundo
-    await new Promise(resolve => setTimeout(resolve, 1000));
+  // esperar un segundo
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    return await checkCompleteStatusUseCase(openai, options);
-}
+  return await checkCompleteStatusUseCase(openai, options);
+};

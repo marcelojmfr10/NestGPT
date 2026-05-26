@@ -1,10 +1,9 @@
-import { IsString } from "class-validator";
-
+import { IsString } from 'class-validator';
 
 export class QuestionDto {
-    @IsString()
-    readonly threadId: string;
+  @IsString()
+  readonly threadId: string;
 
-    @IsString()
-    readonly question: string;
+  @IsString()
+  readonly question: string;
 }

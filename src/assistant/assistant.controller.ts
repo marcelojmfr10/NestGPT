@@ -4,7 +4,7 @@ import { QuestionDto } from './dtos/question.dto';
 
 @Controller('assistant')
 export class AssistantController {
-  constructor(private readonly assistantService: AssistantService) { }
+  constructor(private readonly assistantService: AssistantService) {}
 
   @Post('create-thread')
   async createThread() {
